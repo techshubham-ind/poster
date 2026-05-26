@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Poster Generator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      background:#0f172a;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:40px 20px;
+      color:white;
+    }
+
+    .main-container{
+      width:100%;
+      max-width:1400px;
+      display:grid;
+      grid-template-columns:380px 1fr;
+      gap:30px;
+    }
+
+    .control-panel{
+      background:#111827;
+      padding:30px;
+      border-radius:25px;
+      box-shadow:0 0 30px rgba(0,0,0,0.4);
+      position:sticky;
+      top:20px;
+      height:fit-content;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .title{
+      font-size:30px;
+      font-weight:800;
+      margin-bottom:10px;
+      background:linear-gradient(90deg,#ff00cc,#3333ff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .sub{
+      color:#9ca3af;
+      margin-bottom:30px;
+      line-height:1.5;
+    }
+
+    .input-group{
+      margin-bottom:20px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:10px;
+      font-size:14px;
+      font-weight:600;
+      color:#f3f4f6;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:14px;
+      background:#1f2937;
+      color:white;
+      outline:none;
+      font-size:15px;
+      border:2px solid transparent;
+      transition:0.3s;
+    }
+
+    input:focus,
+    textarea:focus{
+      border-color:#a855f7;
+    }
+
+    textarea{
+      resize:none;
+      height:80px;
+    }
+
+    .btn{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:18px;
+      font-size:17px;
+      font-weight:700;
+      cursor:pointer;
+      transition:0.3s;
+      margin-top:10px;
+    }
+
+    .generate-btn{
+      background:linear-gradient(135deg,#9333ea,#ec4899);
+      color:white;
+      box-shadow:0 10px 25px rgba(168,85,247,0.4);
+    }
+
+    .generate-btn:hover{
+      transform:translateY(-3px);
+    }
+
+    .download-btn{
+      background:linear-gradient(135deg,#2563eb,#06b6d4);
+      color:white;
+      box-shadow:0 10px 25px rgba(37,99,235,0.4);
+    }
+
+    .download-btn:hover{
+      transform:translateY(-3px);
+    }
+
+    .poster-wrapper{
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+    }
+
+    .poster{
+      width:800px;
+      height:800px;
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      background:linear-gradient(135deg,#f3c4ff,#ff99cc);
+      box-shadow:0 0 50px rgba(0,0,0,0.4);
+    }
+
+    .shape1{
+      position:absolute;
+      width:500px;
+      height:500px;
+      background:rgba(255,255,255,0.15);
+      border-radius:50%;
+      top:-200px;
+      right:-100px;
+    }
+
+    .shape2{
+      position:absolute;
+      width:600px;
+      height:600px;
+      background:#d946ef;
+      clip-path:polygon(0 100%,100% 0,100% 100%);
+      bottom:-200px;
+      left:-200px;
+      opacity:0.3;
+    }
+
+    .top-bar{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:35px;
+      position:relative;
+      z-index:2;
+    }
+
+    .business-title{
+      font-size:54px;
+      font-weight:800;
+      color:#111827;
+    }
+
+    .logo{
+      width:120px;
+      height:120px;
+      object-fit:cover;
+      border-radius:20px;
+      background:white;
+      padding:6px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .income-section{
+      padding:0 35px;
+      position:relative;
+      z-index:2;
+    }
+
+    .today-income{
+      font-size:42px;
+      font-weight:700;
+      color:#111827;
+      margin-bottom:10px;
+    }
+
+    .amount{
+      font-size:90px;
+      font-weight:800;
+      color:#000;
+      line-height:1;
+    }
+
+    .content-area{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:20px 35px;
+      position:relative;
+      z-index:2;
+    }
+
+    .statement-box{
+      width:230px;
+      background:white;
+      padding:10px;
+      border-radius:20px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .statement-img{
+      width:100%;
+      height:260px;
+      object-fit:cover;
+      border-radius:12px;
+    }
+
+    .date{
+      font-size:32px;
+      font-weight:700;
+      color:#111827;
+      margin-top:15px;
+      text-align:center;
+    }
+
+    .profile-section{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      margin-right:30px;
+    }
+
+    .profile-ring{
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      padding:8px;
+      background:linear-gradient(135deg,#ffffff,#9333ea,#ec4899);
+      box-shadow:0 0 40px rgba(0,0,0,0.25);
+    }
+
+    .profile-img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      object-fit:cover;
+      background:#ddd;
+    }
+
+    .name{
+      font-size:52px;
+      font-weight:800;
+      margin-top:20px;
+      color:#111827;
+      text-align:center;
+    }
+
+    .address{
+      width:100%;
+      position:absolute;
+      bottom:30px;
+      left:0;
+      text-align:center;
+      font-size:34px;
+      font-weight:700;
+      color:#111827;
+      padding:0 20px;
+      z-index:2;
+    }
+
+    .decor-dot{
+      position:absolute;
+      width:15px;
+      height:15px;
+      border-radius:50%;
+      background:#2563eb;
+      opacity:0.8;
+    }
+
+    .d1{top:240px;right:360px;}
+    .d2{top:280px;right:300px;}
+    .d3{top:330px;right:340px;}
+    .d4{top:260px;right:240px;}
+
+    @media(max-width:1200px){
+      .main-container{
+        grid-template-columns:1fr;
+      }
+
+      .poster{
+        width:100%;
+        height:auto;
+        aspect-ratio:1/1;
+      }
+    }
+
+    @media(max-width:768px){
+
+      .business-title{
+        font-size:34px;
+      }
+
+      .amount{
+        font-size:58px;
+      }
+
+      .today-income{
+        font-size:28px;
+      }
+
+      .content-area{
+        flex-direction:column;
+        gap:20px;
+      }
+
+      .profile-ring{
+        width:240px;
+        height:240px;
+      }
+
+      .name{
+        font-size:34px;
+      }
+
+      .address{
+        font-size:24px;
+      }
+
+      .statement-box{
+        width:180px;
+      }
+
+      .statement-img{
+        height:200px;
+      }
+
+      .logo{
+        width:80px;
+        height:80px;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="main-container">
+
+  <div class="control-panel">
+
+    <div class="title">Poster Generator</div>
+
+    <div class="sub">
+      Generate professional digital income posters instantly.
+    </div>
+
+    <div class="input-group">
+      <label>Upload Profile Photo</label>
+      <input type="file" id="profileInput" accept="image/*">
+    </div>
+
+    <div class="input-group">
+      <label>Upload Income Screenshot</label>
+      <input type="file" id="statementInput" accept="image/*">
+    </div>
+
+    <div class="input-group">
+      <label>Enter Name</label>
+      <input type="text" id="nameInput" placeholder="Enter full name">
+    </div>
+
+    <div class="input-group">
+      <label>Enter Income</label>
+      <input type="text" id="incomeInput" placeholder="254">
+    </div>
+
+    <div class="input-group">
+      <label>Enter Address</label>
+      <textarea id="addressInput" placeholder="Pashchim Medinipur (WB)"></textarea>
+    </div>
+
+    <button class="btn generate-btn" onclick="generatePoster()">
+      Generate Poster
+    </button>
+
+    <button class="btn download-btn" onclick="downloadPoster()">
+      Download Poster
+    </button>
+
+  </div>
+
+  <div class="poster-wrapper">
+
+    <div class="poster" id="poster">
+
+      <div class="shape1"></div>
+      <div class="shape2"></div>
+
+      <div class="decor-dot d1"></div>
+      <div class="decor-dot d2"></div>
+      <div class="decor-dot d3"></div>
+      <div class="decor-dot d4"></div>
+
+      <div class="top-bar">
+
+        <div class="business-title">
+          Digital Work
+        </div>
+
+        <!-- DEFAULT COMPANY LOGO -->
+        <img src="logo.png" class="logo" id="logoImg">
+
+      </div>
+
+      <div class="income-section">
+
+        <div class="today-income">
+          My Today's Income
+        </div>
+
+        <div class="amount" id="posterIncome">
+          Rs- 254/-
+        </div>
+
+      </div>
+
+      <div class="content-area">
+
+        <div>
+          <div class="statement-box">
+            <img src="https://dummyimage.com/300x500/cccccc/000000.jpg&text=Income+Screenshot" class="statement-img" id="statementPreview">
+          </div>
+
+          <div class="date" id="posterDate"></div>
+        </div>
+
+        <div class="profile-section">
+
+          <div class="profile-ring">
+            <img src="https://dummyimage.com/500x500/cccccc/000000.jpg&text=Profile+Photo" class="profile-img" id="profilePreview">
+          </div>
+
+          <div class="name" id="posterName">
+            Your Name
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="address" id="posterAddress">
+        Pashchim Medinipur (WB)
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+  const today = new Date();
+  const formattedDate = `${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
+
+  document.getElementById('posterDate').innerText = formattedDate;
+
+  function generatePoster(){
+
+    const name = document.getElementById('nameInput').value;
+    const income = document.getElementById('incomeInput').value;
+    const address = document.getElementById('addressInput').value;
+
+    if(name.trim() !== ''){
+      document.getElementById('posterName').innerText = name;
+    }
+
+    if(income.trim() !== ''){
+      document.getElementById('posterIncome').innerText = `Rs- ${income}/-`;
+    }
+
+    if(address.trim() !== ''){
+      document.getElementById('posterAddress').innerText = address;
+    }
+
+    alert('Poster Generated Successfully!');
+
+  }
+
+  document.getElementById('profileInput').addEventListener('change', function(e){
+
+    const file = e.target.files[0];
+
+    if(file){
+
+      const reader = new FileReader();
+
+      reader.onload = function(event){
+        document.getElementById('profilePreview').src = event.target.result;
+      }
+
+      reader.readAsDataURL(file);
+    }
+
+  });
+
+  document.getElementById('statementInput').addEventListener('change', function(e){
+
+    const file = e.target.files[0];
+
+    if(file){
+
+      const reader = new FileReader();
+
+      reader.onload = function(event){
+        document.getElementById('statementPreview').src = event.target.result;
+      }
+
+      reader.readAsDataURL(file);
+    }
+
+  });
+
+  function downloadPoster(){
+
+    const poster = document.getElementById('poster');
+
+    html2canvas(poster,{scale:3}).then(canvas=>{
+
+      const link = document.createElement('a');
+
+      link.download = 'professional-income-poster.png';
+
+      link.href = canvas.toDataURL('image/png');
+
+      link.click();
+
+    });
+
+  }
+
+</script>
+
+</body>
+</html>
+
