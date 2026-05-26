@@ -1,4 +1,12 @@
+# Professional Income Poster Generator Web App
 
+Create a folder and save these files inside it.
+
+---
+
+# 1. index.html
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -139,8 +147,8 @@
     }
 
     .poster{
-      width:800px;
-      height:800px;
+      width:850px;
+      height:900px;
       position:relative;
       overflow:hidden;
       border-radius:30px;
@@ -272,11 +280,16 @@
     }
 
     .name{
-      font-size:52px;
+      font-size:48px;
       font-weight:800;
       margin-top:20px;
       color:#111827;
       text-align:center;
+      width:100%;
+      max-width:400px;
+      word-wrap:break-word;
+      line-height:1.2;
+      padding:0 10px;
     }
 
     .address{
@@ -285,11 +298,13 @@
       bottom:30px;
       left:0;
       text-align:center;
-      font-size:34px;
+      font-size:30px;
       font-weight:700;
       color:#111827;
-      padding:0 20px;
+      padding:0 40px;
       z-index:2;
+      line-height:1.4;
+      word-wrap:break-word;
     }
 
     .decor-dot{
@@ -404,6 +419,11 @@
       <textarea id="addressInput" placeholder="Pashchim Medinipur (WB)"></textarea>
     </div>
 
+    <div class="input-group">
+      <label>Select Date</label>
+      <input type="date" id="dateInput">
+    </div>
+
     <button class="btn generate-btn" onclick="generatePoster()">
       Generate Poster
     </button>
@@ -489,12 +509,14 @@
   const formattedDate = `${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
 
   document.getElementById('posterDate').innerText = formattedDate;
+  document.getElementById('dateInput').value = today.toISOString().split('T')[0];
 
   function generatePoster(){
 
     const name = document.getElementById('nameInput').value;
     const income = document.getElementById('incomeInput').value;
     const address = document.getElementById('addressInput').value;
+    const selectedDate = document.getElementById('dateInput').value;
 
     if(name.trim() !== ''){
       document.getElementById('posterName').innerText = name;
@@ -506,6 +528,15 @@
 
     if(address.trim() !== ''){
       document.getElementById('posterAddress').innerText = address;
+    }
+
+    if(selectedDate){
+
+      const d = new Date(selectedDate);
+
+      const formatted = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+
+      document.getElementById('posterDate').innerText = formatted;
     }
 
     alert('Poster Generated Successfully!');
@@ -566,6 +597,137 @@
 
 </script>
 
+  <div style="
+    text-align:center;
+    margin-top:25px;
+    color:#9ca3af;
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:1px;
+  ">
+    Made with ❤️ by Shubham
+  </div>
+
 </body>
 </html>
+```
 
+---
+
+# 2. logo.png
+
+Save your company logo image in the same folder.
+
+VERY IMPORTANT:
+
+* Rename your logo image exactly to:
+
+```text
+logo.png
+```
+
+Then it will automatically appear on every poster.
+
+---
+
+# HOW TO RUN
+
+## STEP 1
+
+Create a folder:
+
+```text
+PosterGenerator
+```
+
+---
+
+## STEP 2
+
+Inside that folder put:
+
+* index.html
+* logo.png
+
+---
+
+## STEP 3
+
+Open:
+
+```text
+index.html
+```
+
+using:
+
+* Chrome
+* Edge
+* Brave
+* Firefox
+
+---
+
+# HOW TO USE
+
+1. Upload profile photo
+2. Upload income screenshot
+3. Type name
+4. Type income
+5. Type address
+6. Click Generate Poster
+7. Click Download Poster
+
+DONE.
+
+---
+
+# FINAL FEATURES INCLUDED
+
+✅ Professional premium design
+✅ Automatic live poster generation
+✅ Upload profile image
+✅ Upload screenshot
+✅ Auto date
+✅ Circular photo frame
+✅ Default company logo
+✅ Mobile responsive
+✅ Download as PNG
+✅ Modern gradients
+✅ Social-media ready poster
+✅ Instagram/Facebook compatible
+✅ One-click workflow
+✅ Fully offline usable
+
+---
+
+# FUTURE UPGRADES YOU CAN ADD
+
+You can later add:
+
+* WhatsApp share button
+* PDF export
+* Multiple templates
+* Animated posters
+* AI background generator
+* Dark mode
+* Login system
+* Firebase database
+* Cloud saving
+* QR code
+* Auto watermark
+* Admin dashboard
+* Online hosting
+* Mobile app version
+
+---
+
+# HOW TO HOST ONLINE
+
+You can host free using:
+
+* GitHub Pages
+* Netlify
+* Vercel
+
+Then your mother can use it from mobile browser directly.
