@@ -51,7 +51,7 @@
     }
 
     .title{
-      font-size:30px;
+      font-size:32px;
       font-weight:800;
       margin-bottom:10px;
       background:linear-gradient(90deg,#ff00cc,#3333ff);
@@ -61,7 +61,7 @@
 
     .sub{
       color:#9ca3af;
-      margin-bottom:30px;
+      margin-bottom:60px;
       line-height:1.5;
     }
 
@@ -140,11 +140,14 @@
 
     .poster{
       width:850px;
-      height:900px;
+      height:1200px;
+      aspect-ratio:210/297;
       position:relative;
       overflow:hidden;
       border-radius:30px;
-      background:linear-gradient(135deg,#f3c4ff,#ff99cc);
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      --bg1:#f3c4ff;
+      --bg2:#ff99cc;
       box-shadow:0 0 50px rgba(0,0,0,0.4);
     }
 
@@ -272,15 +275,15 @@
     }
 
     .name{
-      font-size:48px;
+      font-size:42px;
       font-weight:800;
-      margin-top:20px;
+      margin-top:28px;
       color:#111827;
       text-align:center;
       width:100%;
-      max-width:400px;
+      max-width:500px;
       word-wrap:break-word;
-      line-height:1.2;
+      line-height:1.4;
       padding:0 10px;
     }
 
@@ -416,6 +419,16 @@
       <input type="date" id="dateInput">
     </div>
 
+    <div class="input-group">
+      <label>Choose Background Color 1</label>
+      <input type="color" id="bgColor1" value="#f3c4ff">
+    </div>
+
+    <div class="input-group">
+      <label>Choose Background Color 2</label>
+      <input type="color" id="bgColor2" value="#ff99cc">
+    </div>
+
     <button class="btn generate-btn" onclick="generatePoster()">
       Generate Poster
     </button>
@@ -509,6 +522,8 @@
     const income = document.getElementById('incomeInput').value;
     const address = document.getElementById('addressInput').value;
     const selectedDate = document.getElementById('dateInput').value;
+    const bg1 = document.getElementById('bgColor1').value;
+    const bg2 = document.getElementById('bgColor2').value;
 
     if(name.trim() !== ''){
       document.getElementById('posterName').innerText = name;
@@ -521,6 +536,9 @@
     if(address.trim() !== ''){
       document.getElementById('posterAddress').innerText = address;
     }
+
+    document.getElementById('poster').style.setProperty('--bg1', bg1);
+    document.getElementById('poster').style.setProperty('--bg2', bg2);
 
     if(selectedDate){
 
@@ -602,3 +620,4 @@
 
 </body>
 </html>
+
